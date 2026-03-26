@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Withdraw";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background-color: #FFCCFF;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card mt-5">
+            <div class="card-header bg-danger text-white">
+                <h2 class="mb-0">Withdraw</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label class="form-label">Account ID</label>
+                        <input type="text" name="accountid" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <input type="number" name="amount" class="form-control" step="0.01" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-danger">Withdraw</button>
+                    <a href="@Url.Action("Dashboard", "Account")" class="btn btn-secondary ms-2">
+                        Cancel
+                    </a>
+
+                    @if (ViewBag.Msg != null)
+                    {
+                        <div class="mt-3">
+                            <span style="color:red; font-weight:bold;">@ViewBag.Msg</span>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

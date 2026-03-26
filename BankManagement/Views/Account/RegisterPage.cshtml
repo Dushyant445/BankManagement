@@ -1,0 +1,325 @@
+﻿
+@model BankManagement.Models.Customer
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="registration-container">
+    <div class="info-panel">
+        <h2>INFORMATION</h2>
+        <p>
+            Register yourself to access secure banking services such as account management, balance inquiry, fund transfers, and transaction history.
+
+        </p>
+        <p class="highlight">Note: Please provide accurate details to ensure safe and seamless Banking operations.</p>
+        <a href="@Url.Action("Login", "Account")" class="have-account-btn">Have An Account</a>
+    </div>
+
+    <div class="form-panel">
+        <h2>REGISTER FORM</h2>
+
+        @using (Html.BeginForm("RegisterPage", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-row">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.name, "Name")
+                    @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "First Name", required = "required" })
+                    @Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.mobile, "Mobile")
+                    @Html.TextBoxFor(m => m.mobile, new { @class = "form-control", placeholder = "Mobile number", required = "required" })
+                    @Html.ValidationMessageFor(m => m.mobile, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.email, "Your Email")
+                @Html.TextBoxFor(m => m.email, new { @class = "form-control", type = "email", placeholder = "Email", required = "required" })
+                @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.password, "Password")
+                    <div class="password-wrapper">
+                        @Html.PasswordFor(m => m.password, new { @class = "form-control", id = "password", placeholder = "••••••••", required = "required" })
+                        <span class="password-indicator password-match" id="passwordCheck">✓</span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.confirmpassword, "Confirm Password")
+                    <div class="password-wrapper">
+                        @Html.PasswordFor(m => m.confirmpassword, new { @class = "form-control", id = "confirmPassword", placeholder = "••••••••", required = "required" })
+                        <span class="password-indicator" id="confirmCheck"></span>
+                    </div>
+                    <span class="password-message" id="passwordMessage"></span>
+                    @Html.ValidationMessageFor(m => m.confirmpassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">
+                    I agree to the <a href="#" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a>
+                </label>
+            </div>
+
+            <button type="submit" class="register-btn" id="registerButton">Register</button>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .registration-container {
+        display: flex;
+        max-width: 900px;
+        width: 90%;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        margin: 30px auto;
+    }
+
+    .info-panel {
+        background: linear-gradient(135deg, #5e8cce 0%, #4a7bb8 100%);
+        color: white;
+        padding: 50px 40px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .info-panel h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .info-panel p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        .info-panel .highlight {
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+    .have-account-btn {
+        background: white;
+        color: #5e8cce;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+        .have-account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    .form-panel {
+        padding: 50px 40px;
+        flex: 1;
+    }
+
+        .form-panel h2 {
+            color: #5e8cce;
+            font-size: 26px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+    .form-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        flex: 1;
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: all 0.3s;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #5e8cce;
+            box-shadow: 0 0 0 3px rgba(94, 140, 206, 0.1);
+        }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-indicator {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+    }
+
+    .password-match {
+        color: #28a745;
+    }
+
+    .password-mismatch {
+        color: #ffc107;
+    }
+
+    .password-message {
+        font-size: 12px;
+        margin-top: 5px;
+        color: #ffc107;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .terms-checkbox {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+    }
+
+        .terms-checkbox input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox label {
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .terms-checkbox a {
+            color: #5e8cce;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .terms-checkbox a:hover {
+                text-decoration: underline;
+            }
+
+    .register-btn {
+        width: 100%;
+        background: #5e8cce;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .register-btn:hover {
+            background: #4a7bb8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(94, 140, 206, 0.3);
+        }
+
+        .register-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+</style>
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const passwordCheck = document.getElementById('passwordCheck');
+        const confirmCheck = document.getElementById('confirmCheck');
+        const passwordMessage = document.getElementById('passwordMessage');
+        const agreeTerms = document.getElementById('agreeTerms');
+        const registerButton = document.getElementById('registerButton');
+
+        function checkPasswords() {
+            if (confirmPassword.value === '') {
+                confirmCheck.textContent = '';
+                passwordMessage.textContent = '';
+                return;
+            }
+
+            if (password.value === confirmPassword.value && password.value !== '') {
+                confirmCheck.textContent = '✓';
+                confirmCheck.className = 'password-indicator password-match';
+                passwordMessage.textContent = '';
+            } else {
+                confirmCheck.textContent = '⚠';
+                confirmCheck.className = 'password-indicator password-mismatch';
+                passwordMessage.textContent = 'Wrong Password';
+            }
+        }
+
+        password.addEventListener('input', checkPasswords);
+        confirmPassword.addEventListener('input', checkPasswords);
+
+        // Enable/disable register button based on terms checkbox
+        agreeTerms.addEventListener('change', function () {
+            registerButton.disabled = !this.checked;
+        });
+
+        // Initial state
+        registerButton.disabled = !agreeTerms.checked;
+    });
+</script>
